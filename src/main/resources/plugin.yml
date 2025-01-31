@@ -14,9 +14,8 @@ depend:
   - PluginQuery
   - ProtocolLib
   - PlaceholderAPI
-  - LiteBans
   - PremiumVanish
-softdepend: [GrimAC, PolarLoader]
+softdepend: [GrimAC, PolarLoader, LiteBans]
 commands:
   pitsim:
   ps:

@@ -21,6 +21,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ShowCommand implements CommandExecutor {
+
+
+	public boolean litebansHook;
+
+	public ShowCommand() {
+		try {
+			Class.forName("litebans.api.Database");
+			litebansHook = true;
+		} catch (Exception ignore) {
+			litebansHook = false;
+		}
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -37,13 +50,16 @@ public class ShowCommand implements CommandExecutor {
 			@Override
 			public void run() {
 				String ip = player.getAddress().getAddress().getHostAddress();
-				boolean isMuted = Database.get().isPlayerMuted(player.getUniqueId(), ip);
-				if(isMuted) {
-					AOutput.error(player, "&cYou are muted!");
-					return;
+
+				if (litebansHook) {
+					boolean isMuted = Database.get().isPlayerMuted(player.getUniqueId(), ip);
+					if(isMuted) {
+						AOutput.error(player, "&cYou are muted!");
+						return;
+					}
 				}
 
-				new BukkitRunnable() {
+                new BukkitRunnable() {
 					@Override
 					public void run() {
 						ItemStack itemStack = player.getItemInHand();
