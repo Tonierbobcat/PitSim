@@ -1,6 +1,8 @@
 package net.pitsim.spigot.controllers;
 
+import com.mattmalec.pterodactyl4j.PteroBuilder;
 import com.mattmalec.pterodactyl4j.client.entities.ClientServer;
+import com.mattmalec.pterodactyl4j.client.entities.PteroClient;
 import dev.kyro.arcticapi.data.AConfig;
 import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.misc.Sounds;
@@ -49,7 +51,7 @@ public class ShutdownManager {
 						}
 					}
 				}
-
+				
 				if(seconds == 0 && counter == 1) {
 					if(ShutdownManager.minutes == 1) {
 						disableEnderChest();
@@ -71,14 +73,13 @@ public class ShutdownManager {
 	}
 
 	public static void execute() {
-		if(isRestart) {
-			PitSim.client.retrieveServerByIdentifier(AConfig.getString("pterodactyl-id"))
-					.flatMap(ClientServer::restart).executeAsync();
-		} else {
-			PitSim.client.retrieveServerByIdentifier(AConfig.getString("pterodactyl-id"))
-					.flatMap(ClientServer::stop).executeAsync();
-		}
-
+//		if(isRestart) {
+//			PitSim.client.retrieveServerByIdentifier(AConfig.getString("pterodactyl-id"))
+//					.flatMap(ClientServer::restart).executeAsync();
+//		} else {
+//			PitSim.client.retrieveServerByIdentifier(AConfig.getString("pterodactyl-id"))
+//					.flatMap(ClientServer::stop).executeAsync();
+//		}
 	}
 
 	public static void cancelShutdown() {

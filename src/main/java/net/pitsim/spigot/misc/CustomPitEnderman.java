@@ -38,9 +38,9 @@ public class CustomPitEnderman extends EntityMonster {
 
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, new Short((short)0));
-		this.datawatcher.a(17, new Byte((byte)0));
-		this.datawatcher.a(18, new Byte((byte)0));
+		this.datawatcher.a(16, (short)0);
+		this.datawatcher.a(17, (byte)0);
+		this.datawatcher.a(18, (byte) 0);
 	}
 
 	public void b(NBTTagCompound var1) {

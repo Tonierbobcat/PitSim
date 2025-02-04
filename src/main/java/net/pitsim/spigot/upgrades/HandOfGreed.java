@@ -1,5 +1,6 @@
 package net.pitsim.spigot.upgrades;
 
+import com.mattmalec.pterodactyl4j.PteroAction;
 import dev.kyro.arcticapi.builders.AItemStackBuilder;
 import net.pitsim.spigot.controllers.UpgradeManager;
 import net.pitsim.spigot.controllers.objects.TieredRenownUpgrade;
@@ -25,6 +26,7 @@ public class HandOfGreed extends TieredRenownUpgrade {
 
 	@Override
 	public ItemStack getBaseDisplayStack() {
+
 		return new AItemStackBuilder(Material.BOWL)
 				.getItemStack();
 	}
