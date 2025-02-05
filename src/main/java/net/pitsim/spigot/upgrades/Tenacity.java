@@ -1,8 +1,6 @@
 package net.pitsim.spigot.upgrades;
 
-import be.maximvdw.featherboard.FeatherBoard;
-import be.maximvdw.featherboard.api.FeatherBoardAPI;
-import de.myzelyam.api.vanish.VanishAPI;
+
 import dev.kyro.arcticapi.builders.AItemStackBuilder;
 import net.pitsim.spigot.controllers.UpgradeManager;
 import net.pitsim.spigot.controllers.objects.PitPlayer;

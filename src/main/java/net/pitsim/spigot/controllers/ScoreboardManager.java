@@ -1,6 +1,6 @@
 package net.pitsim.spigot.controllers;
 
-import be.maximvdw.featherboard.api.FeatherBoardAPI;
+//import be.maximvdw.featherboard.api.FeatherBoardAPI;
 import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.controllers.objects.PitEnchant;
 import net.pitsim.spigot.controllers.objects.PitPlayer;
@@ -90,8 +90,8 @@ public class ScoreboardManager implements Listener {
 		}
 
 		public void display(Player player) {
-			FeatherBoardAPI.resetDefaultScoreboard(player);
-			FeatherBoardAPI.showScoreboard(player, scoreboardName);
+//			FeatherBoardAPI.resetDefaultScoreboard(player);
+//			FeatherBoardAPI.showScoreboard(player, scoreboardName);
 		}
 	}
 }

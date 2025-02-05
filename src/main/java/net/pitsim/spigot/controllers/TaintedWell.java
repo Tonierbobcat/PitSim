@@ -47,7 +47,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class TaintedWell implements Listener {
-	public static Location wellLocation = new Location(Bukkit.getWorld("darkzone"), 186.0, 92.0, -106.0);
+	public static Location wellLocation = new Location(PitSim.DARKZONE(), 186.0, 92.0, -106.0);
 	public static ArmorStand wellStand;
 
 	public static Hologram hologram;
@@ -412,7 +412,7 @@ public class TaintedWell implements Listener {
 		Block block = event.getClickedBlock();
 		PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
 
-		if(block.getType() != Material.ENCHANTMENT_TABLE || player.getWorld() != Bukkit.getWorld("darkzone")) return;
+		if(block.getType() != Material.ENCHANTMENT_TABLE || player.getWorld() != PitSim.DARKZONE()) return;
 		event.setCancelled(true);
 		if(playerItems.containsKey(event.getPlayer()) || Misc.isAirOrNull(player.getItemInHand())) return;
 
@@ -455,7 +455,7 @@ public class TaintedWell implements Listener {
 	public void onMove(PlayerMoveEvent event) {
 		if(!playerItems.containsKey(event.getPlayer())) return;
 
-		if(event.getPlayer().getWorld() != Bukkit.getWorld("darkzone")) {
+		if(event.getPlayer().getWorld() != PitSim.DARKZONE()) {
 			onButtonPush(event.getPlayer(), false);
 		}
 
@@ -495,7 +495,7 @@ public class TaintedWell implements Listener {
 	}
 
 	public static int getStandID(ArmorStand stand) {
-		for(Entity entity : Bukkit.getWorld("darkzone").getNearbyEntities(wellLocation, 5.0, 5.0, 5.0)) {
+		for(Entity entity : PitSim.DARKZONE().getNearbyEntities(wellLocation, 5.0, 5.0, 5.0)) {
 			if(!(entity instanceof ArmorStand)) {
 				continue;
 			}

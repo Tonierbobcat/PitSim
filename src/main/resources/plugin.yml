@@ -6,7 +6,6 @@ version: 1.0.0
 main: net.pitsim.spigot.PitSim
 description: Remake of the Hypixel Pit
 depend:
-  - PitSimSpigotDependencies
   - Citizens
   - DeluxeChat
   - FeatherBoard

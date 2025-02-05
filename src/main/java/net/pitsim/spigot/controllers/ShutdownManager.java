@@ -1,9 +1,6 @@
 package net.pitsim.spigot.controllers;
 
-import com.mattmalec.pterodactyl4j.PteroBuilder;
-import com.mattmalec.pterodactyl4j.client.entities.ClientServer;
-import com.mattmalec.pterodactyl4j.client.entities.PteroClient;
-import dev.kyro.arcticapi.data.AConfig;
+
 import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.misc.Sounds;
 import org.bukkit.Bukkit;

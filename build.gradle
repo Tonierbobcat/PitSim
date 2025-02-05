@@ -11,6 +11,14 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+configurations.configureEach {
+    resolutionStrategy {
+        'com.google.guava:guava:33.4.0-jre'
+        force 'io.grpc:grpc-netty:1.69.0'
+        force 'io.grpc:grpc-api:1.69.0'
+    }
+}
+
 repositories {
     mavenCentral()
     mavenLocal()
@@ -21,7 +29,17 @@ repositories {
     maven { url 'https://maven.enginehub.org/repo/' }
     maven { url 'https://repo.mattmalec.com/repository/releases' }
     maven { url 'https://repo.polar.top/repository/polar/'}
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+    maven {
+        name = 'citizens-repo'
+        url = 'https://maven.citizensnpcs.co/repo'
+    }
+    maven {
+        url 'https://repo.mvdw-software.be/content/groups/public/'
+    }
 }
+
+
 
 dependencies {
     compileOnly 'com.github.ArcticDevelopment:ArcticAPI:032bf8696c'
@@ -29,12 +47,24 @@ dependencies {
     // Google Auth and Firebase dependencies
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.31.0'
     implementation 'com.google.auth:google-auth-library-credentials:1.31.0'
-    implementation 'com.google.firebase:firebase-admin:9.4.3'
-    implementation 'com.google.cloud:google-cloud-dialogflow-cx:0.17.0'
-    implementation group: 'io.grpc', name: 'grpc-auth', version: '1.70.0'
 
-    compileOnly 'net.kyori:adventure-platform-bukkit:4.1.0'
+    implementation 'com.google.firebase:firebase-admin:9.4.3'
+
+    implementation 'com.google.cloud:google-cloud-dialogflow-cx:0.17.0'
+    implementation 'com.google.guava:guava:33.4.0-jre'
+
+    implementation 'io.grpc:grpc-netty:1.69.0'
+    implementation 'io.grpc:grpc-api:1.69.0'
+    implementation 'io.grpc:grpc-core:1.69.0'
+    implementation 'io.grpc:grpc-netty-shaded:1.69.0'
+
+
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.8.0'
+
+    compileOnly('net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT') {
+        exclude group: '*', module: '*'
+    }
+    compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
 
     compileOnly 'org.jetbrains:annotations:23.0.0'
 
@@ -50,27 +80,34 @@ dependencies {
     compileOnly 'net.luckperms:api:5.4'
 
     compileOnly 'com.github.MWHunter:GrimAPI:add576ba8b'
+
     compileOnly 'top.polar:api:2.0.0'
 
-
+    compileOnly 'com.github.sunarya-thito:PluginQuery:1.0.44'
 
     compileOnly files('libs/spigot-1.8.8.jar')
+    compileOnly files('libs/NoteBlockAPI-1.6.2-Kyro.jar')
+    compileOnly files('libs/DeluxeChat-1.16.2.jar')
 
-    compileOnly files('libs/PitSimSpigotDependencies-1-all.jar')
+
+
+    compileOnly files('libs/ArcticGuilds.jar')
+    implementation 'net.kyori:adventure-platform-bukkit:4.1.0'
 }
 
 shadowJar {
-//    relocate 'dev.kyro.arcticapi', 'net.pitsim.arcticapi'
-    relocate 'io.grpc.auth', 'net.pitsim.com.grpc.auth'
-    relocate 'net.kyori', 'net.pitsim.kyori'
+    relocate 'net.kyori.adventure', 'net.pitsim.adventure'
+
+    relocate 'io.grpc', 'net.pitsim.io.grpc'
+    relocate 'io.netty', 'net.pitsim.io.netty'
+
     relocate 'com.google.auth', 'net.pitsim.com.google.auth'
     relocate 'com.google.firebase', 'net.pitsim.com.google.firebase'
     relocate 'com.google.cloud', 'net.pitsim.com.google.cloud'
+    relocate 'com.google.common', 'net.pitsim.com.google.common'
 
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
     exclude 'META-INF/*.RSA', 'META-INF/*.DSA', 'META-INF/*.SF', 'META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
-
-    minimize()
 
     mergeServiceFiles()
 }

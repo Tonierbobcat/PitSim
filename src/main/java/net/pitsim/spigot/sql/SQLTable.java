@@ -19,6 +19,7 @@ public class SQLTable {
 		this.tableName = tableName;
 
 		this.connection = connectionInfo.getConnection();
+
 		structure.build(this);
 
 		TableManager.registerTable(this);

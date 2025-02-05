@@ -3,3 +3,13 @@ error-prefix: '&c'
 server: pitsim-1
 pterodactyl-id: XXXXXXX
 standalone-server: true
+worlds:
+  #Bukkit world names "world" "world_end" etc..
+  darkzone: "darkzone"
+  tutorial: "tutorial"
+mysql:
+  database: "pitsim"
+  hostname: x.x.x.x
+  port: 3306
+  password: "*****"
+  user: "admin"

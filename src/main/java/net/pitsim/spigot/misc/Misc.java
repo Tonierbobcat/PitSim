@@ -183,18 +183,18 @@ public class Misc {
 	}
 
 	public static void alertDiscord(String message) {
-		DiscordWebhook discordWebhook = new DiscordWebhook(FirestoreManager.CONFIG.alertsWebhook);
-		discordWebhook.setContent(message);
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				try {
-					discordWebhook.execute();
-				} catch(IOException exception) {
-					exception.printStackTrace();
-				}
-			}
-		}.runTaskAsynchronously(PitSim.INSTANCE);
+//		DiscordWebhook discordWebhook = new DiscordWebhook(FirestoreManager.CONFIG.alertsWebhook);
+//		discordWebhook.setContent(message);
+//		new BukkitRunnable() {
+//			@Override
+//			public void run() {
+//				try {
+//					discordWebhook.execute();
+//				} catch(IOException exception) {
+//					exception.printStackTrace();
+//				}
+//			}
+//		}.runTaskAsynchronously(PitSim.INSTANCE);
 	}
 
 	public static void logToDiscord(DiscordLogChannel logChannel, String message) {

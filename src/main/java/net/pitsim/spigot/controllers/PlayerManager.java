@@ -1,6 +1,5 @@
 package net.pitsim.spigot.controllers;
 
-import be.maximvdw.featherboard.api.FeatherBoardAPI;
 import de.myzelyam.api.vanish.VanishAPI;
 import de.tr7zw.nbtapi.NBTItem;
 import dev.kyro.arcticapi.misc.AOutput;
@@ -541,7 +540,7 @@ public class PlayerManager implements Listener {
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
-		if(event.getPlayer().getLocation().getY() < 10 && event.getPlayer().getWorld() == Bukkit.getWorld("tutorial"))
+		if(event.getPlayer().getLocation().getY() < 10 && event.getPlayer().getWorld() == PitSim.TUTORIAL())
 			DamageManager.killPlayer(event.getPlayer());
 		else if(event.getPlayer().getLocation().getY() < 10 && (MapManager.getDarkzone() == event.getPlayer().getWorld() || MapManager.currentMap.world == event.getPlayer().getWorld())) {
 			DamageManager.killPlayer(event.getPlayer());
@@ -587,11 +586,11 @@ public class PlayerManager implements Listener {
 			Bukkit.getPluginManager().callEvent(equipmentChangeEvent);
 		}
 
-		if(Misc.isKyro(player.getUniqueId()) && PitSim.anticheat instanceof GrimManager) {
-			Bukkit.getServer().dispatchCommand(player, "grim alerts");
-		}
+//		if(Misc.isKyro(player.getUniqueId()) && PitSim.anticheat instanceof GrimManager) { //todo add this back
+//			Bukkit.getServer().dispatchCommand(player, "grim alerts");
+//		}
 
-		FeatherBoardAPI.resetDefaultScoreboard(player);
+//		FeatherBoardAPI.resetDefaultScoreboard(player); //todo add this back
 		ScoreboardManager.updateScoreboard(player);
 
 		for(PitPlayer.MegastreakLimit cooldown : pitPlayer.getAllCooldowns()) cooldown.attemptReset(pitPlayer);

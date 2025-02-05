@@ -2,8 +2,6 @@ package net.pitsim.spigot;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.mattmalec.pterodactyl4j.PteroBuilder;
-import com.mattmalec.pterodactyl4j.client.entities.PteroClient;
 import com.sk89q.worldedit.EditSession;
 import com.xxmicloxx.NoteBlockAPI.songplayer.EntitySongPlayer;
 import de.myzelyam.api.vanish.VanishAPI;
@@ -18,88 +16,88 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.luckperms.api.LuckPerms;
-import net.pitsim.spigot.enchants.tainted.uncommon.basic.Shield;
-import net.pitsim.spigot.sql.TableManager;
-import net.pitsim.spigot.darkzone.*;
-import net.pitsim.spigot.darkzone.abilities.CageAbility;
-import net.pitsim.spigot.darkzone.altar.AltarManager;
-import net.pitsim.spigot.darkzone.altar.BiomeChanger;
-import net.pitsim.spigot.enums.EquipmentType;
-import net.pitsim.spigot.misc.PitEquipment;
-import net.pitsim.spigot.controllers.ShieldManager;
-import net.pitsim.spigot.darkzone.progression.ProgressionManager;
-import net.pitsim.spigot.help.HelpManager;
-import net.pitsim.spigot.items.diamond.*;
-import net.pitsim.spigot.items.misc.*;
-import net.pitsim.spigot.items.mobdrops.*;
-import net.pitsim.spigot.items.mystics.*;
-import net.pitsim.spigot.serverstatistics.StatisticsManager;
-import net.pitsim.spigot.auction.AuctionDisplays;
-import net.pitsim.spigot.auction.AuctionManager;
-import net.pitsim.spigot.battlepass.PassManager;
 import net.pitsim.spigot.battlepass.quests.*;
-import net.pitsim.spigot.battlepass.quests.daily.DailyBotKillQuest;
-import net.pitsim.spigot.battlepass.quests.daily.DailyMegastreakQuest;
-import net.pitsim.spigot.battlepass.quests.daily.DailyPlayerKillQuest;
-import net.pitsim.spigot.battlepass.quests.daily.DailySWGamePlayedQuest;
 import net.pitsim.spigot.battlepass.quests.dzkillmobs.*;
 import net.pitsim.spigot.boosters.*;
-import net.pitsim.spigot.brewing.BrewingManager;
-import net.pitsim.spigot.brewing.PotionManager;
+import net.pitsim.spigot.*;
 import net.pitsim.spigot.commands.*;
 import net.pitsim.spigot.commands.admin.*;
 import net.pitsim.spigot.commands.beta.*;
 import net.pitsim.spigot.commands.essentials.*;
 import net.pitsim.spigot.controllers.*;
 import net.pitsim.spigot.controllers.objects.*;
-import net.pitsim.spigot.cosmetics.CosmeticManager;
-import net.pitsim.spigot.cosmetics.PitCosmetic;
-import net.pitsim.spigot.cosmetics.aura.*;
 import net.pitsim.spigot.cosmetics.bounty.*;
 import net.pitsim.spigot.cosmetics.capes.*;
-import net.pitsim.spigot.cosmetics.killeffectsbot.AlwaysExe;
-import net.pitsim.spigot.cosmetics.killeffectsbot.IronKill;
-import net.pitsim.spigot.cosmetics.killeffectsbot.OnlyExe;
-import net.pitsim.spigot.cosmetics.killeffectsbot.Tetris;
 import net.pitsim.spigot.cosmetics.killeffectsplayer.*;
-import net.pitsim.spigot.cosmetics.misc.ElectricPresence;
-import net.pitsim.spigot.cosmetics.misc.Halo;
-import net.pitsim.spigot.cosmetics.misc.KyroCosmetic;
-import net.pitsim.spigot.cosmetics.misc.MysticPresence;
 import net.pitsim.spigot.cosmetics.trails.*;
+import net.pitsim.spigot.darkzone.*;
+import net.pitsim.spigot.darkzone.altar.BiomeChanger;
 import net.pitsim.spigot.enchants.overworld.*;
 import net.pitsim.spigot.enchants.tainted.chestplate.*;
 import net.pitsim.spigot.enchants.tainted.common.*;
 import net.pitsim.spigot.enchants.tainted.scythe.*;
 import net.pitsim.spigot.enchants.tainted.uncommon.*;
 import net.pitsim.spigot.enchants.tainted.uncommon.basic.*;
-import net.pitsim.spigot.enums.NBTTag;
-import net.pitsim.spigot.enums.PitCalendarEvent;
+import net.pitsim.spigot.darkzone.abilities.CageAbility;
+import net.pitsim.spigot.darkzone.altar.AltarManager;
+import net.pitsim.spigot.darkzone.progression.ProgressionManager;
+import net.pitsim.spigot.enchants.tainted.uncommon.basic.Shield;
+import net.pitsim.spigot.enums.EquipmentType;
 import net.pitsim.spigot.events.EquipmentChangeEvent;
 import net.pitsim.spigot.helmetabilities.*;
-import net.pitsim.spigot.holograms.HologramManager;
-import net.pitsim.spigot.killstreaks.Leech;
+import net.pitsim.spigot.help.HelpManager;
+import net.pitsim.spigot.items.diamond.*;
+import net.pitsim.spigot.items.misc.*;
+import net.pitsim.spigot.items.mobdrops.*;
+import net.pitsim.spigot.items.mystics.*;
 import net.pitsim.spigot.killstreaks.*;
+import net.pitsim.spigot.killstreaks.Leech;
+import net.pitsim.spigot.leaderboards.*;
+import net.pitsim.spigot.megastreaks.*;
+import net.pitsim.spigot.misc.PitEquipment;
+import net.pitsim.spigot.misc.ReloadManager;
+import net.pitsim.spigot.misc.packets.SignPrompt;
+import net.pitsim.spigot.npcs.*;
+import net.pitsim.spigot.perks.*;
+import net.pitsim.spigot.placeholders.*;
+import net.pitsim.spigot.serverstatistics.StatisticsManager;
+import net.pitsim.spigot.auction.AuctionDisplays;
+import net.pitsim.spigot.auction.AuctionManager;
+import net.pitsim.spigot.battlepass.PassManager;
+import net.pitsim.spigot.battlepass.quests.daily.DailyBotKillQuest;
+import net.pitsim.spigot.battlepass.quests.daily.DailyMegastreakQuest;
+import net.pitsim.spigot.battlepass.quests.daily.DailyPlayerKillQuest;
+import net.pitsim.spigot.battlepass.quests.daily.DailySWGamePlayedQuest;
+import net.pitsim.spigot.brewing.BrewingManager;
+import net.pitsim.spigot.brewing.PotionManager;
+import net.pitsim.spigot.cosmetics.CosmeticManager;
+import net.pitsim.spigot.cosmetics.PitCosmetic;
+import net.pitsim.spigot.cosmetics.aura.*;
+import net.pitsim.spigot.cosmetics.killeffectsbot.AlwaysExe;
+import net.pitsim.spigot.cosmetics.killeffectsbot.IronKill;
+import net.pitsim.spigot.cosmetics.killeffectsbot.OnlyExe;
+import net.pitsim.spigot.cosmetics.killeffectsbot.Tetris;
+import net.pitsim.spigot.cosmetics.misc.ElectricPresence;
+import net.pitsim.spigot.cosmetics.misc.Halo;
+import net.pitsim.spigot.cosmetics.misc.KyroCosmetic;
+import net.pitsim.spigot.cosmetics.misc.MysticPresence;
+import net.pitsim.spigot.enums.NBTTag;
+import net.pitsim.spigot.enums.PitCalendarEvent;
+import net.pitsim.spigot.holograms.HologramManager;
 import net.pitsim.spigot.kits.EssentialKit;
 import net.pitsim.spigot.kits.GoldKit;
 import net.pitsim.spigot.kits.PvPKit;
 import net.pitsim.spigot.kits.XPKit;
-import net.pitsim.spigot.leaderboards.*;
 import net.pitsim.spigot.logging.LogManager;
 import net.pitsim.spigot.market.MarketMessaging;
-import net.pitsim.spigot.megastreaks.*;
 import net.pitsim.spigot.misc.ItemRename;
-import net.pitsim.spigot.misc.ReloadManager;
 import net.pitsim.spigot.misc.effects.PacketBlock;
-import net.pitsim.spigot.misc.packets.SignPrompt;
-import net.pitsim.spigot.npcs.*;
-import net.pitsim.spigot.perks.*;
 import net.pitsim.spigot.pitmaps.BiomesMap;
 import net.pitsim.spigot.pitmaps.DimensionsMap;
 import net.pitsim.spigot.pitmaps.SandMap;
 import net.pitsim.spigot.pitmaps.XmasMap;
-import net.pitsim.spigot.placeholders.*;
 import net.pitsim.spigot.settings.scoreboard.*;
+import net.pitsim.spigot.sql.TableManager;
 import net.pitsim.spigot.storage.StorageManager;
 import net.pitsim.spigot.tutorial.TutorialManager;
 import net.pitsim.spigot.tutorial.checkpoints.*;
@@ -121,6 +119,7 @@ import septogeddon.pluginquery.api.QueryMessenger;
 import java.io.File;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.Level;
 
 public class PitSim extends JavaPlugin {
 	public static final double VERSION = 3.0;
@@ -141,8 +140,14 @@ public class PitSim extends JavaPlugin {
 
 	public static ServerStatus status;
 
-	public static AnticheatManager anticheat;
+//	public static AnticheatManager anticheat;
 
+	public static World DARKZONE() {
+		return Bukkit.getWorld(PitSim.INSTANCE.getConfig().getString("worlds.darkzone"));
+	}
+	public static World TUTORIAL() {
+		return Bukkit.getWorld(PitSim.INSTANCE.getConfig().getString("worlds.tutorial"));
+	}
 	@Override
 	public void onEnable() {
 		INSTANCE = this;
@@ -153,55 +158,76 @@ public class PitSim extends JavaPlugin {
 		if(AConfig.getBoolean("standalone-server")) status = ServerStatus.STANDALONE;
 		else status = serverName.contains("darkzone") ? ServerStatus.DARKZONE : ServerStatus.OVERWORLD;
 
+
 		FirestoreManager.init();
-//
-////		client = status == ServerStatus.STANDALONE ? null : PteroBuilder.createClient(FirestoreManager.CONFIG.pteroURL, FirestoreManager.CONFIG.pteroClientKey);
-//
-//
-//
-//		try {
-//			Class.forName("litebans.api.Database");
-//			LitebansManager.init();
-//		} catch (Exception ignore) {
-//		}
-//
-//		TableManager.registerTables();
-//
-//		if(status.isDarkzone()) {
-//			DarkzoneManager.loadChunks();
-//			DarkzoneManager.clearEntities();
-//		}
-//
-//		for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-//			PlayerManager.addRealPlayer(onlinePlayer.getUniqueId());
-//
-//			PitEquipment currentEquipment = new PitEquipment(onlinePlayer);
-//			for(EquipmentType equipmentType : EquipmentType.values()) {
-//				new BukkitRunnable() {
-//					@Override
-//					public void run() {
-//						if(!onlinePlayer.isOnline()) return;
-//						EquipmentChangeEvent event = new EquipmentChangeEvent(onlinePlayer, equipmentType,
-//								new PitEquipment(), currentEquipment, true);
-//						Bukkit.getPluginManager().callEvent(event);
-//					}
-//				}.runTaskLater(PitSim.INSTANCE, 1L);
-//			}
-//
-////			TODO: disable later
-////			onlinePlayer.teleport(new Location(MapManager.getDarkzone(), 312.5, 68, -139.5, -104, 7));
-//		}
-//
-//		BossBarManager.init();
-//		for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-//			boolean success = PitPlayer.loadPitPlayer(onlinePlayer.getUniqueId());
-//			if(success) continue;
-//			onlinePlayer.kickPlayer(ChatColor.RED + "Playerdata failed to load. Please open a support ticket: discord.pitsim.net");
-//		}
-//
+
+		new Config().load();
+
+		if (FirestoreManager.CONFIG == null) {
+			getLogger().log(Level.SEVERE, "Could not load config!");
+			Bukkit.getPluginManager().disablePlugin(this);
+		}
+		else {
+			getLogger().log(Level.INFO, "Config successfully loaded!");
+		}
+
+		Arrays.asList(
+				"url: " + FirestoreManager.CONFIG.SQLHostname,
+				"user: " + "****",
+				"pass: " + "****"
+		).forEach(string -> {
+			getLogger().log(Level.INFO, "SQL " + string);
+		});
+
+		try {
+			Class.forName("litebans.api.Database");
+			LitebansManager.init();
+			getLogger().log(Level.INFO, "Hooked into LiteBans!");
+		} catch (Exception ignore) {
+		}
+
+		if (!TableManager.registerTables()) {
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		else {
+			getLogger().log(Level.INFO, "Successfully registered tables to database!");
+		}
+
+		if(status.isDarkzone()) {
+			DarkzoneManager.loadChunks();
+			DarkzoneManager.clearEntities();
+		}
+
+		for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+			PlayerManager.addRealPlayer(onlinePlayer.getUniqueId());
+
+			PitEquipment currentEquipment = new PitEquipment(onlinePlayer);
+			for(EquipmentType equipmentType : EquipmentType.values()) {
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						if(!onlinePlayer.isOnline()) return;
+						EquipmentChangeEvent event = new EquipmentChangeEvent(onlinePlayer, equipmentType,
+								new PitEquipment(), currentEquipment, true);
+						Bukkit.getPluginManager().callEvent(event);
+					}
+				}.runTaskLater(PitSim.INSTANCE, 1L);
+			}
+
+//			onlinePlayer.teleport(new Location(MapManager.getDarkzone(), 312.5, 68, -139.5, -104, 7));
+		}
+
+		BossBarManager.init();
+		for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+			boolean success = PitPlayer.loadPitPlayer(onlinePlayer.getUniqueId());
+			if(success) continue;
+			onlinePlayer.kickPlayer(ChatColor.RED + "Playerdata failed to load. Please open a support ticket: discord.pitsim.net");
+		}
+
 //		if(Bukkit.getPluginManager().getPlugin("GrimAC") != null) hookIntoAnticheat(new GrimManager());
 //		if(Bukkit.getPluginManager().getPlugin("PolarLoader") != null) hookIntoAnticheat(new PolarManager());
-//
+
 //		if(!isDev()) {
 //			if(anticheat == null) {
 //				Bukkit.getLogger().severe("No anticheat found! Shutting down...");
@@ -209,126 +235,126 @@ public class PitSim extends JavaPlugin {
 //				return;
 //			} else getServer().getPluginManager().registerEvents(anticheat, this);
 //		}
-//
-//		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-//		adventure = BukkitAudiences.create(this);
-//		if(getStatus().isDarkzone()) TaintedWell.onStart();
-//		if(getStatus().isDarkzone()) AltarManager.init();
-//		if(getStatus().isDarkzone()) SpawnBlocker.init();
-//		if(getStatus().isDarkzone()) BrewingManager.onStart();
-//		ScoreboardManager.init();
-//
-//		RegisteredServiceProvider<LuckPerms> luckpermsProvider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-//		if(luckpermsProvider != null) LUCKPERMS = luckpermsProvider.getProvider();
-//
-//		PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
-//		new BiomeChanger(this);
-//
-//		new BukkitRunnable() {
-//			@Override
-//			public void run() {
-//				List<NPC> toRemove = new ArrayList<>();
-//				for(NPC npc : CitizensAPI.getNPCRegistry()) {
-//					toRemove.add(npc);
-//				}
-//				while(!toRemove.isEmpty()) {
-//					toRemove.get(0).destroy();
-//					toRemove.remove(0);
-//				}
-//			}
-//		}.runTaskLater(PitSim.INSTANCE, 10);
-//
-//		if(status.isOverworld()) registerMaps();
-//
-//		if(getStatus().isOverworld()) NonManager.init();
-//		SignPrompt.registerSignUpdateListener();
-//		ReloadManager.init();
-//
-//		if(!Bukkit.getServer().getPluginManager().getPlugin("NoteBlockAPI").getDescription().getVersion().toLowerCase().contains("kyro")) {
-//			AOutput.log("Wrong version of NoteBlockAPI found");
-//			getServer().getPluginManager().disablePlugin(this);
-//			return;
-//		}
-//
-////		Plugin essentials = Bukkit.getPluginManager().getPlugin("Essentials");
-////		EntityDamageEvent.getHandlerList().unregister(essentials);
-//
-//		Plugin worldGuard = Bukkit.getPluginManager().getPlugin("WorldGuard");
-//		BlockIgniteEvent.getHandlerList().unregister(worldGuard);
-//		PotionSplashEvent.getHandlerList().unregister(worldGuard);
-//
-//		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-//		} else {
-//			AOutput.log(String.format("Could not find PlaceholderAPI! This plugin is required."));
-//			Bukkit.getPluginManager().disablePlugin(this);
-//		}
-//
-//		if(!Bukkit.getPluginManager().isPluginEnabled("NoteBlockAPI")) {
-//			getLogger().severe("*** NoteBlockAPI is not installed or not enabled. ***");
-//			return;
-//		}
-//
-//		QueryMessenger messenger = PluginQuery.getMessenger();
-//		messenger.getEventBus().registerListener(new PluginMessageManager());
-//
-//		registerBoosters();
-//		registerUpgrades();
-//		registerPerks();
-//		registerKillstreaks();
-//		registerMegastreaks();
-//		registerPassQuests();
-//		if(getStatus().isOverworld()) registerLeaderboards();
-//		if(getStatus().isOverworld()) LeaderboardManager.init();
-//
-//		ArcticAPI.setupPlaceholderAPI("pitsim");
-//		AHook.registerPlaceholder(new PrefixPlaceholder());
-//		AHook.registerPlaceholder(new SuffixPlaceholder());
-//		AHook.registerPlaceholder(new StrengthChainingPlaceholder());
-//		AHook.registerPlaceholder(new GladiatorPlaceholder());
-//		AHook.registerPlaceholder(new CombatTimerPlaceholder());
-//		AHook.registerPlaceholder(new StreakPlaceholder());
-//		AHook.registerPlaceholder(new ExperiencePlaceholder());
-//		AHook.registerPlaceholder(new LevelPlaceholder());
-//		AHook.registerPlaceholder(new PrestigeLevelPlaceholder());
-//		AHook.registerPlaceholder(new PrestigePlaceholder());
-//		AHook.registerPlaceholder(new GoldReqPlaceholder());
-//		AHook.registerPlaceholder(new SoulsPlaceholder());
-//		AHook.registerPlaceholder(new PlayerCountPlaceholder());
-//		AHook.registerPlaceholder(new GoldPlaceholder());
-//		AHook.registerPlaceholder(new NicknamePlaceholder());
-//		AHook.registerPlaceholder(new ServerIPPlaceholder());
-//		AHook.registerPlaceholder(new CustomScoreboardPlaceholder());
-//
-//		CooldownManager.init();
-//
-//		registerEnchants();
-//		registerItems();
-//		registerCommands();
-//		registerListeners();
-//		registerHelmetAbilities();
-//		registerKits();
-//		registerCosmetics();
-//		registerScoreboardOptions();
-//		registerNPCCheckpoints();
-//
-//		PassManager.registerPasses();
-//		HelpManager.registerIntentsAndPages();
-//		if(getStatus().isDarkzone()) AuctionManager.onStart();
-//		if(getStatus().isDarkzone()) AuctionDisplays.onStart();
-//
-//		new BukkitRunnable() {
-//			@Override
-//			public void run() {
-//				ProxyMessaging.sendStartup();
-//			}
-//		}.runTaskLater(this, 20 * 10);
-//
-//		new BukkitRunnable() {
-//			@Override
-//			public void run() {
-//				registerNPCs();
-//			}
-//		}.runTaskLater(PitSim.INSTANCE, 20);
+
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		adventure = BukkitAudiences.create(this);
+		if(getStatus().isDarkzone()) TaintedWell.onStart();
+		if(getStatus().isDarkzone()) AltarManager.init();
+		if(getStatus().isDarkzone()) SpawnBlocker.init();
+		if(getStatus().isDarkzone()) BrewingManager.onStart();
+		ScoreboardManager.init();
+
+		RegisteredServiceProvider<LuckPerms> luckpermsProvider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+		if(luckpermsProvider != null) LUCKPERMS = luckpermsProvider.getProvider();
+
+		PROTOCOL_MANAGER = ProtocolLibrary.getProtocolManager();
+		new BiomeChanger(this);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				List<NPC> toRemove = new ArrayList<>();
+				for(NPC npc : CitizensAPI.getNPCRegistry()) {
+					toRemove.add(npc);
+				}
+				while(!toRemove.isEmpty()) {
+					toRemove.get(0).destroy();
+					toRemove.remove(0);
+				}
+			}
+		}.runTaskLater(PitSim.INSTANCE, 10);
+
+		if(status.isOverworld()) registerMaps();
+
+		if(getStatus().isOverworld()) NonManager.init();
+		SignPrompt.registerSignUpdateListener();
+		ReloadManager.init();
+
+		if(!Bukkit.getServer().getPluginManager().getPlugin("NoteBlockAPI").getDescription().getVersion().toLowerCase().contains("kyro")) {
+			AOutput.log("Wrong version of NoteBlockAPI found");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+
+//		Plugin essentials = Bukkit.getPluginManager().getPlugin("Essentials");
+//		EntityDamageEvent.getHandlerList().unregister(essentials);
+
+		Plugin worldGuard = Bukkit.getPluginManager().getPlugin("WorldGuard");
+		BlockIgniteEvent.getHandlerList().unregister(worldGuard);
+		PotionSplashEvent.getHandlerList().unregister(worldGuard);
+
+		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+		} else {
+			AOutput.log(String.format("Could not find PlaceholderAPI! This plugin is required."));
+			Bukkit.getPluginManager().disablePlugin(this);
+		}
+
+		if(!Bukkit.getPluginManager().isPluginEnabled("NoteBlockAPI")) {
+			getLogger().severe("*** NoteBlockAPI is not installed or not enabled. ***");
+			return;
+		}
+
+		QueryMessenger messenger = PluginQuery.getMessenger();
+		messenger.getEventBus().registerListener(new PluginMessageManager());
+
+		registerBoosters();
+		registerUpgrades();
+		registerPerks();
+		registerKillstreaks();
+		registerMegastreaks();
+		registerPassQuests();
+		if(getStatus().isOverworld()) registerLeaderboards();
+		if(getStatus().isOverworld()) LeaderboardManager.init();
+
+		ArcticAPI.setupPlaceholderAPI("pitsim");
+		AHook.registerPlaceholder(new PrefixPlaceholder());
+		AHook.registerPlaceholder(new SuffixPlaceholder());
+		AHook.registerPlaceholder(new StrengthChainingPlaceholder());
+		AHook.registerPlaceholder(new GladiatorPlaceholder());
+		AHook.registerPlaceholder(new CombatTimerPlaceholder());
+		AHook.registerPlaceholder(new StreakPlaceholder());
+		AHook.registerPlaceholder(new ExperiencePlaceholder());
+		AHook.registerPlaceholder(new LevelPlaceholder());
+		AHook.registerPlaceholder(new PrestigeLevelPlaceholder());
+		AHook.registerPlaceholder(new PrestigePlaceholder());
+		AHook.registerPlaceholder(new GoldReqPlaceholder());
+		AHook.registerPlaceholder(new SoulsPlaceholder());
+		AHook.registerPlaceholder(new PlayerCountPlaceholder());
+		AHook.registerPlaceholder(new GoldPlaceholder());
+		AHook.registerPlaceholder(new NicknamePlaceholder());
+		AHook.registerPlaceholder(new ServerIPPlaceholder());
+		AHook.registerPlaceholder(new CustomScoreboardPlaceholder());
+
+		CooldownManager.init();
+
+		registerEnchants();
+		registerItems();
+		registerCommands();
+		registerListeners();
+		registerHelmetAbilities();
+		registerKits();
+		registerCosmetics();
+		registerScoreboardOptions();
+		registerNPCCheckpoints();
+
+		PassManager.registerPasses();
+		HelpManager.registerIntentsAndPages();
+		if(getStatus().isDarkzone()) AuctionManager.onStart();
+		if(getStatus().isDarkzone()) AuctionDisplays.onStart();
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				ProxyMessaging.sendStartup();
+			}
+		}.runTaskLater(this, 20 * 10);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				registerNPCs();
+			}
+		}.runTaskLater(PitSim.INSTANCE, 20);
 	}
 
 	@Override
@@ -413,6 +439,7 @@ public class PitSim extends JavaPlugin {
 		for(Non non : copyList) {
 			non.remove();
 		}
+
 		for(PitEnchant pitEnchant : EnchantManager.pitEnchants) pitEnchant.onDisable();
 
 		Iterator<Map.Entry<Player, EntitySongPlayer>> it = StereoManager.playerMusic.entrySet().iterator();
@@ -926,6 +953,7 @@ public class PitSim extends JavaPlugin {
 		ItemFactory.registerItem(new TokenOfAppreciation());
 		ItemFactory.registerItem(new TheCakeIsALie());
 
+
 		ItemFactory.registerItem(new DiamondHelmet());
 		ItemFactory.registerItem(new DiamondChestplate());
 		ItemFactory.registerItem(new DiamondLeggings());
@@ -959,8 +987,7 @@ public class PitSim extends JavaPlugin {
 	}
 
 	private void loadConfig() {
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		saveDefaultConfig();
 	}
 
 	@Override
@@ -1148,12 +1175,12 @@ public class PitSim extends JavaPlugin {
 	}
 
 	public void hookIntoAnticheat(AnticheatManager anticheat) {
-		if(PitSim.anticheat != null) {
-			Bukkit.getLogger().severe("Multiple anticheats found! Shutting down...");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
-		PitSim.anticheat = anticheat;
+//		if(PitSim.anticheat != null) {
+//			Bukkit.getLogger().severe("Multiple anticheats found! Shutting down...");
+//			Bukkit.getPluginManager().disablePlugin(this);
+//			return;
+//		}
+//		PitSim.anticheat = anticheat;
 	}
 
 	public static boolean isDev() {

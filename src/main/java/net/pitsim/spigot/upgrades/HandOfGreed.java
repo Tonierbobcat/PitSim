@@ -1,6 +1,6 @@
 package net.pitsim.spigot.upgrades;
 
-import com.mattmalec.pterodactyl4j.PteroAction;
+
 import dev.kyro.arcticapi.builders.AItemStackBuilder;
 import net.pitsim.spigot.controllers.UpgradeManager;
 import net.pitsim.spigot.controllers.objects.TieredRenownUpgrade;

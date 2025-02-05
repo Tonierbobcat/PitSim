@@ -1,11 +1,13 @@
 package net.pitsim.spigot.controllers;
 
 import dev.kyro.arcticapi.misc.AOutput;
+import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.controllers.objects.PitMap;
 import net.pitsim.spigot.events.PlayerSpawnCommandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,11 +57,11 @@ public class MapManager implements Listener {
 	}
 
 	public static World getTutorial() {
-		return Bukkit.getWorld("tutorial");
+		return PitSim.TUTORIAL();
 	}
 
 	public static World getDarkzone() {
-		return Bukkit.getWorld("darkzone");
+		return PitSim.DARKZONE();
 	}
 
 	public static Location getDarkzoneSpawn() {

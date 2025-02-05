@@ -79,9 +79,10 @@ public class PortalManager implements Listener {
 			PotionManager.bossBars.remove(player);
 
 			Location teleportLoc;
-			if(player.getWorld() != Bukkit.getWorld("darkzone")) {
+			var world = PitSim.DARKZONE();
+			if(player.getWorld() != world) {
 				teleportLoc = playerLoc.clone().add(235, 40, -97);
-				teleportLoc.setWorld(Bukkit.getWorld("darkzone"));
+				teleportLoc.setWorld(world);
 				teleportLoc.setX(173);
 				teleportLoc.setY(92);
 				teleportLoc.setZ(-94);
@@ -101,7 +102,7 @@ public class PortalManager implements Listener {
 			PitPlayer.getPitPlayer(player).updateMaxHealth();
 			player.setHealth(player.getMaxHealth());
 
-			if(player.getWorld() == Bukkit.getWorld("darkzone")) {
+			if(player.getWorld() == PitSim.DARKZONE()) {
 				Misc.sendTitle(player, "&d&k||&5&lDarkzone&d&k||", 40);
 				Misc.sendSubTitle(player, "", 40);
 				AOutput.send(player, "&7You have been sent to the &d&k||&5&lDarkzone&d&k||&7.");

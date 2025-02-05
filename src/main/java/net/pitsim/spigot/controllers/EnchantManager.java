@@ -105,7 +105,7 @@ public class EnchantManager implements Listener {
 		Block block = event.getClickedBlock();
 
 		if(block.getType() != Material.ENCHANTMENT_TABLE) return;
-		if(player.getWorld() == Bukkit.getWorld("darkzone")) return;
+		if(player.getWorld() == PitSim.DARKZONE()) return;
 
 		event.setCancelled(true);
 

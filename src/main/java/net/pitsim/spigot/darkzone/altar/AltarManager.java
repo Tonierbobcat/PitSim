@@ -111,7 +111,7 @@ public  class AltarManager implements Listener {
 	}
 
 	public static int getStandID(ArmorStand stand) {
-		for(Entity entity : Bukkit.getWorld("darkzone").getNearbyEntities(CONFIRM_LOCATION, 10.0, 10.0, 10.0)) {
+		for(Entity entity : PitSim.DARKZONE().getNearbyEntities(CONFIRM_LOCATION, 10.0, 10.0, 10.0)) {
 			if(!(entity instanceof ArmorStand) || !entity.isValid()) {
 				continue;
 			}

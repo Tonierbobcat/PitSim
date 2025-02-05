@@ -1,6 +1,5 @@
 package net.pitsim.spigot.upgrades;
 
-import be.maximvdw.featherboard.api.FeatherBoardAPI;
 import dev.kyro.arcticapi.builders.AItemStackBuilder;
 import net.pitsim.spigot.controllers.objects.UnlockableRenownUpgrade;
 import net.pitsim.spigot.inventories.WithercraftPanel;

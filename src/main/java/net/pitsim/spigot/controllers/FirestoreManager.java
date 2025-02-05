@@ -26,7 +26,7 @@ public class FirestoreManager {
 
 	public static void init() {
 		try {
-			AOutput.log("Loading PitSim database");
+			AOutput.log("Loading Firestore database..");
 			InputStream serviceAccount = Files.newInputStream(new File(PitSim.INSTANCE.getDataFolder() + "/google-key.json").toPath());
 			GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 			FirebaseOptions options = new FirebaseOptions.Builder()
@@ -35,13 +35,13 @@ public class FirestoreManager {
 			try {
 				FirebaseApp.initializeApp(options);
 			} catch(IllegalStateException exception) {
-				AOutput.log("Firestore already initialized");
+				AOutput.log("Firestore already initialized!");
 			}
 
 			FIRESTORE = FirestoreClient.getFirestore();
-			AOutput.log("PitSim database loaded!");
+			AOutput.log("Firestore database loaded!");
 		} catch(IOException exception) {
-			AOutput.log("PitSim database failed to load. Disabling plugin...");
+			AOutput.log("Firestore database failed to load. Disabling plugin... " + exception.getMessage());
 			PitSim.INSTANCE.getServer().getPluginManager().disablePlugin(PitSim.INSTANCE);
 			return;
 		}

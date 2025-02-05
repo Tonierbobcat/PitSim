@@ -47,14 +47,14 @@ public class ComboStun extends PitEnchant {
 		else cooldown.restart();
 		int duration = (int) getDuration(enchantLvl) * 20;
 
-		if(PitSim.anticheat instanceof PolarManager) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					PitSim.anticheat.exemptPlayer(attackEvent.getDefenderPlayer(), duration * 500L, AnticheatManager.FlagType.KNOCKBACK, AnticheatManager.FlagType.SIMULATION);
-				}
-			}.runTaskLater(PitSim.INSTANCE, 10);
-		}
+//		if(PitSim.anticheat instanceof PolarManager) { //todo add this back
+//			new BukkitRunnable() {
+//				@Override
+//				public void run() {
+//					PitSim.anticheat.exemptPlayer(attackEvent.getDefenderPlayer(), duration * 500L, AnticheatManager.FlagType.KNOCKBACK, AnticheatManager.FlagType.SIMULATION);
+//				}
+//			}.runTaskLater(PitSim.INSTANCE, 10);
+//		}
 
 		Misc.stunEntity(attackEvent.getDefender(), duration);
 		Sounds.COMBO_STUN.play(attackEvent.getAttacker());

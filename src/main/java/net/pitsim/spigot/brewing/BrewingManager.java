@@ -136,7 +136,7 @@ public class BrewingManager implements Listener {
 	}
 
 	public static void onStart() {
-		brewingAnimations.add(new BrewingAnimation(new Location(Bukkit.getWorld("darkzone"), 222, 91, -102)));
+		brewingAnimations.add(new BrewingAnimation(new Location(PitSim.DARKZONE(), 222, 91, -102)));
 		spinStand = (ArmorStand) brewingAnimations.get(0).location.getWorld().spawnEntity(brewingAnimations.get(0).location.clone().add(0.5, 0, 0.5), EntityType.ARMOR_STAND);
 		spinStand.setItemInHand(new ItemStack(Material.STICK));
 		spinStand.setArms(true);
@@ -151,7 +151,7 @@ public class BrewingManager implements Listener {
 		Player player = event.getPlayer();
 		if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		if(event.getClickedBlock().getType() != Material.CAULDRON) return;
-		if(player.getWorld() != Bukkit.getWorld("darkzone")) return;
+		if(player.getWorld() != PitSim.DARKZONE()) return;
 		if(hasReadyPotions(player)) {
 			for(int i = 0; i < 3; i++) {
 				BrewingSession session = getBrewingSession(player, i + 1);
@@ -237,7 +237,7 @@ public class BrewingManager implements Listener {
 	}
 
 	public static int getStandID(final ArmorStand stand, Location location) {
-		for(final Entity entity : Bukkit.getWorld("darkzone").getNearbyEntities(location, 7.0, 7.0, 7.0)) {
+		for(final Entity entity : PitSim.DARKZONE().getNearbyEntities(location, 7.0, 7.0, 7.0)) {
 			if(!(entity instanceof ArmorStand)) {
 				continue;
 			}
