@@ -1,6 +1,7 @@
 package net.pitsim.spigot.commands;
 
 import dev.kyro.arcticapi.misc.AOutput;
+import net.pitsim.spigot.controllers.LevelManager;
 import net.pitsim.spigot.controllers.objects.PitPlayer;
 import net.pitsim.spigot.misc.Formatter;
 import net.pitsim.spigot.misc.Misc;
@@ -114,6 +115,7 @@ public class EcoCommand implements CommandExecutor {
 	public static void giveGold(CommandSender giver, Player target, double amount) {
 		PitPlayer pitTarget = PitPlayer.getPitPlayer(target);
 		pitTarget.gold += amount;
+
 		if(giver != target) AOutput.send(giver, "&6&lECO!&7 Gave " + Formatter.formatGoldFull(amount) + " &7to " + Misc.getDisplayName(target));
 		AOutput.send(pitTarget.player, "&6&lGOLD!&7 You received " + Formatter.formatGoldFull(amount));
 	}

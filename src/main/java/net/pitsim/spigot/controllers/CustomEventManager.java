@@ -24,25 +24,26 @@ public class CustomEventManager implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInitialJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
-		StorageProfile profile = StorageManager.getProfile(player.getUniqueId());
 
-		if(!profile.isLoaded()) {
-			preventedJoin.add(player.getUniqueId());
-			player.kickPlayer(ChatColor.RED + "An error occurred when loading your data. Please report this issue.");
-			return;
-		}
-
-		PitJoinEvent pitJoinEvent = new PitJoinEvent(event, player, pitPlayer, profile);
-
-		try {
-			Bukkit.getPluginManager().callEvent(pitJoinEvent);
-		} catch(Exception e) {
-			e.printStackTrace();
-			preventedJoin.add(player.getUniqueId());
-			player.kickPlayer(ChatColor.RED + "An error occurred when loading your data. Please report this issue.");
-		}
+//		Player player = event.getPlayer();
+//		PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
+//		StorageProfile profile = StorageManager.getProfile(player.getUniqueId());
+//
+//		if(!profile.isLoaded()) {
+//			preventedJoin.add(player.getUniqueId());
+//			player.kickPlayer(ChatColor.RED + "An error occurred when loading your data. Please report this issue.");
+//			return;
+//		}
+//
+//		PitJoinEvent pitJoinEvent = new PitJoinEvent(event, player, pitPlayer, profile);
+//
+//		try {
+//			Bukkit.getPluginManager().callEvent(pitJoinEvent);
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			preventedJoin.add(player.getUniqueId());
+//			player.kickPlayer(ChatColor.RED + "An error occurred when loading your data. Please report this issue.");
+//		}
 	}
 
 

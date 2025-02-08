@@ -4,6 +4,7 @@ import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.RepeatMode;
 import com.xxmicloxx.NoteBlockAPI.songplayer.PositionSongPlayer;
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
+import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.boosters.ChaosBooster;
 import net.pitsim.spigot.controllers.objects.PitMap;
 import org.bukkit.Location;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class XmasMap extends PitMap {
 
@@ -20,22 +22,27 @@ public class XmasMap extends PitMap {
 		super(worldName, rotationDays);
 
 		File exampleSong = new File("plugins/NoteBlockAPI/Xmas/Frosty the Snowman.nbs");
-		File dir = new File(exampleSong.getAbsoluteFile().getParent());
-		File[] files = dir.listFiles();
-		assert files != null;
-		Playlist playlist = new Playlist(NBSDecoder.parse(files[0]));
+		if (exampleSong != null) {
+			File dir = new File(exampleSong.getAbsoluteFile().getParent());
+			File[] files = dir.listFiles();
+			assert files != null;
+			Playlist playlist = new Playlist(NBSDecoder.parse(files[0]));
 
-		for(int i = 1; i < files.length; i++) {
-			playlist.add(NBSDecoder.parse(files[i]));
+			for(int i = 1; i < files.length; i++) {
+				playlist.add(NBSDecoder.parse(files[i]));
+			}
+			PositionSongPlayer esp = new PositionSongPlayer(playlist);
+			esp.setDistance(18);
+			esp.setRepeatMode(RepeatMode.ALL);
+			esp.setTargetLocation(getMid().add(0, 20, 0));
+			esp.setAutoDestroy(true);
+			esp.setPlaying(true);
+			radio = esp;
+		}
+		else {
+			PitSim.INSTANCE.getLogger().log(Level.WARNING, "Could not load 'plugins/NoteBlockAPI/Xmas/Frosty the Snowman.nbs'");
 		}
 
-		PositionSongPlayer esp = new PositionSongPlayer(playlist);
-		esp.setDistance(18);
-		esp.setRepeatMode(RepeatMode.ALL);
-		esp.setTargetLocation(getMid().add(0, 20, 0));
-		esp.setAutoDestroy(true);
-		esp.setPlaying(true);
-		radio = esp;
 	}
 
 	public static Location mid = new Location(null, 0.5, 70, 0.5);

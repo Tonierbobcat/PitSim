@@ -7,6 +7,11 @@ worlds:
   #Bukkit world names "world" "world_end" etc..
   darkzone: "darkzone"
   tutorial: "tutorial"
+maps:
+  biomes: "biomes"
+  sand: "sand"
+  dimensions: "dimensions"
+  xmas: "xmas"
 mysql:
   database: "pitsim"
   hostname: x.x.x.x

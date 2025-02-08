@@ -7,8 +7,8 @@ group 'net.pitsim'
 version ''
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 configurations.configureEach {
@@ -64,7 +64,7 @@ dependencies {
     compileOnly('net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT') {
         exclude group: '*', module: '*'
     }
-    compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
+    compileOnly 'com.comphenix.protocol:ProtocolLib:5.0.0'
 
     compileOnly 'org.jetbrains:annotations:23.0.0'
 

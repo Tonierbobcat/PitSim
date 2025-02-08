@@ -7,6 +7,7 @@ import net.pitsim.spigot.controllers.MapManager;
 import net.pitsim.spigot.enums.MobStatus;
 import net.pitsim.spigot.holograms.Hologram;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class SubLevel {
 	public static long tick = 0;
@@ -81,30 +83,43 @@ public class SubLevel {
 	}
 
 	public void tick() {
-		if(tick % 4 == 0) {
-			for(PitMob pitMob : new ArrayList<>(mobs)) {
-				if(pitMob.getMob().getLocation().distance(getMiddle()) < spawnRadius + 5) continue;
-				pitMob.remove();
-			}
-		}
+        try {
+            if(tick % 4 == 0) {
+                for(PitMob pitMob : new ArrayList<>(mobs)) {
+                    if(pitMob.getMob().getLocation().distance(getMiddle()) < spawnRadius + 5) continue;
+                    pitMob.remove();
+                }
+            }
 
-		if(Math.random() < 0.33) {
-			int newMobsNeeded = maxMobs - mobs.size();
-			for(int i = 0; i < Math.min(newMobsNeeded, 3); i++) {
-				if (!isBossSpawned) spawnMob(null, MobStatus.STANDARD);
-			}
-		}
+            if(Math.random() < 0.33) {
+                int newMobsNeeded = maxMobs - mobs.size();
+                for(int i = 0; i < Math.min(newMobsNeeded, 3); i++) {
+                    if (!isBossSpawned) spawnMob(null, MobStatus.STANDARD);
+                }
+            }
 
-		mobTargetingSystem.assignTargets();
-	}
+            mobTargetingSystem.assignTargets();
+        } catch (Exception e) {
+            PitSim.INSTANCE.getLogger().log(Level.SEVERE, e.getMessage());
+        }
+    }
 
 	public void identifySpawnableLocations() {
+		PitSim.INSTANCE.getLogger().log(Level.INFO, "identifying spawn locations. spawnradius: " + spawnRadius);
 		for(int x = -spawnRadius; x < spawnRadius + 1; x++) {
 			for(int z = -spawnRadius; z < spawnRadius + 1; z++) {
+
 				Location location = new Location(MapManager.getDarkzone(), middle.getBlockX() + x + 0.5, middle.getBlockY(), middle.getBlockZ() + z + 0.5);
-				if(location.distance(middle) > spawnRadius) continue;
+				if(location.distance(middle) > spawnRadius) {
+					PitSim.INSTANCE.getLogger().log(Level.WARNING, "Distance is greater then spawn radius");
+					continue;
+				}
+
 				location.add(0, -3, 0);
-				if(!isSpawnableLocation(location)) continue;
+				if(!isSpawnableLocation(location)) {
+					PitSim.INSTANCE.getLogger().log(Level.WARNING, "Location not spawnable!");
+					continue;
+				}
 				spawnableLocations.add(location);
 			}
 		}
@@ -147,7 +162,12 @@ public class SubLevel {
 	}
 
 	public Location getMobSpawnLocation() {
-		return spawnableLocations.get(new Random().nextInt(spawnableLocations.size()));
+		if (spawnableLocations.isEmpty()) {
+			PitSim.INSTANCE.getLogger().log(Level.WARNING, "Spawn locations is empty");
+			return new Location(Bukkit.getWorlds().get(0), 0,0, 0);
+		}
+		var index = new Random().nextInt(spawnableLocations.size());
+		return spawnableLocations.get(index);
 	}
 
 	public boolean isSpawnableLocation(Location location) {

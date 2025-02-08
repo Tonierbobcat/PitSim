@@ -6,6 +6,10 @@ version: 1.0.0
 main: net.pitsim.spigot.PitSim
 description: Remake of the Hypixel Pit
 depend:
+  - WorldEdit
+  - WorldGuard
+  - ArcticAPI
+  - ArcticGuilds
   - Citizens
   - DeluxeChat
   - FeatherBoard

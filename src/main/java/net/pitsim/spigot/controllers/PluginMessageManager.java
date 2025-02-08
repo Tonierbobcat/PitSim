@@ -34,7 +34,7 @@ public class PluginMessageManager implements QueryMessageListener {
 		try {
 			msgout.writeUTF(message.messageID.toString());
 			msgout.writeUTF(message.responseID.toString());
-			msgout.writeUTF(AConfig.getString("server"));
+			msgout.writeUTF(PitSim.INSTANCE.getConfig().getString("server"));
 
 			msgout.writeInt(message.getStrings().size());
 			msgout.writeInt(message.getIntegers().size());

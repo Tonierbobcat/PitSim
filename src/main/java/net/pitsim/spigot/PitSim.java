@@ -106,8 +106,10 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -152,12 +154,12 @@ public class PitSim extends JavaPlugin {
 	public void onEnable() {
 		INSTANCE = this;
 
+
 		loadConfig();
 		ArcticAPI.configInit(this, "prefix", "error-prefix");
-		serverName = AConfig.getString("server");
-		if(AConfig.getBoolean("standalone-server")) status = ServerStatus.STANDALONE;
+		serverName = getConfig().getString("server");
+		if(getConfig().getBoolean("standalone-server")) status = ServerStatus.STANDALONE;
 		else status = serverName.contains("darkzone") ? ServerStatus.DARKZONE : ServerStatus.OVERWORLD;
-
 
 		FirestoreManager.init();
 
@@ -217,6 +219,9 @@ public class PitSim extends JavaPlugin {
 
 //			onlinePlayer.teleport(new Location(MapManager.getDarkzone(), 312.5, 68, -139.5, -104, 7));
 		}
+
+
+
 
 		BossBarManager.init();
 		for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -339,8 +344,10 @@ public class PitSim extends JavaPlugin {
 
 		PassManager.registerPasses();
 		HelpManager.registerIntentsAndPages();
-		if(getStatus().isDarkzone()) AuctionManager.onStart();
-		if(getStatus().isDarkzone()) AuctionDisplays.onStart();
+		if(getStatus().isDarkzone())
+			AuctionManager.onStart();
+		if(getStatus().isDarkzone())
+			AuctionDisplays.onStart();
 
 		new BukkitRunnable() {
 			@Override
@@ -458,10 +465,13 @@ public class PitSim extends JavaPlugin {
 		PitMap pitMap = null;
 		long time;
 
-		PitMap biomes = MapManager.registerMap(new BiomesMap("biomes", 7));
-		PitMap sand = MapManager.registerMap(new SandMap("sand", 3));
-		PitMap dimensions = MapManager.registerMap(new DimensionsMap("dimensions", 7));
-		PitMap xmas = MapManager.registerMap(new XmasMap("xmas", -1));
+		var conf = PitSim.INSTANCE.getConfig();
+
+
+		PitMap biomes = MapManager.registerMap(new BiomesMap(conf.getString("maps.biomes"), 7));
+		PitMap sand = MapManager.registerMap(new SandMap(conf.getString("maps.sand"), 3));
+		PitMap dimensions = MapManager.registerMap(new DimensionsMap(conf.getString("maps.dimensions"), 7));
+		PitMap xmas = MapManager.registerMap(new XmasMap(conf.getString("maps.xmas"), -1));
 
 		String configString = FirestoreManager.CONFIG.mapData;
 		String mapName = null;
@@ -702,62 +712,68 @@ public class PitSim extends JavaPlugin {
 
 	private void registerListeners() {
 
-		getServer().getPluginManager().registerEvents(new DamageManager(), this);
-		getServer().getPluginManager().registerEvents(new PlayerManager(), this);
-		getServer().getPluginManager().registerEvents(new EnchantManager(), this);
-		getServer().getPluginManager().registerEvents(new PlayerDataManager(), this);
-		getServer().getPluginManager().registerEvents(new ChatManager(), this);
-		getServer().getPluginManager().registerEvents(new DamageIndicator(), this);
-		getServer().getPluginManager().registerEvents(new ItemManager(), this);
-		getServer().getPluginManager().registerEvents(new CombatManager(), this);
-		getServer().getPluginManager().registerEvents(new SpawnManager(), this);
-		getServer().getPluginManager().registerEvents(new ItemRename(), this);
-		getServer().getPluginManager().registerEvents(new AFKManager(), this);
-		getServer().getPluginManager().registerEvents(new TotallyLegitGem(), this);
-		getServer().getPluginManager().registerEvents(new BlobManager(), this);
-		getServer().getPluginManager().registerEvents(new BoosterManager(), this);
-		getServer().getPluginManager().registerEvents(new HopperManager(), this);
-		getServer().getPluginManager().registerEvents(new ResourcePackManager(), this);
-		getServer().getPluginManager().registerEvents(new StatManager(), this);
-		getServer().getPluginManager().registerEvents(new HelmetManager(), this);
-		getServer().getPluginManager().registerEvents(new MapManager(), this);
-		getServer().getPluginManager().registerEvents(new GuildIntegrationManager(), this);
-		getServer().getPluginManager().registerEvents(new UpgradeManager(), this);
-		getServer().getPluginManager().registerEvents(new KitManager(), this);
-		getServer().getPluginManager().registerEvents(new PortalManager(), this);
-		getServer().getPluginManager().registerEvents(new PotionManager(), this);
-		getServer().getPluginManager().registerEvents(new TaintedManager(), this);
-		getServer().getPluginManager().registerEvents(new StereoManager(), this);
-		getServer().getPluginManager().registerEvents(new ScoreboardManager(), this);
-		getServer().getPluginManager().registerEvents(new ProxyMessaging(), this);
-		getServer().getPluginManager().registerEvents(new LobbySwitchManager(), this);
-		getServer().getPluginManager().registerEvents(new PassManager(), this);
-		getServer().getPluginManager().registerEvents(new SkinManager(), this);
-		getServer().getPluginManager().registerEvents(new TimeManager(), this);
-		getServer().getPluginManager().registerEvents(new NPCManager(), this);
-		getServer().getPluginManager().registerEvents(new CosmeticManager(), this);
-		getServer().getPluginManager().registerEvents(new LogManager(), this);
-		getServer().getPluginManager().registerEvents(new StorageManager(), this);
-		getServer().getPluginManager().registerEvents(new CrossServerMessageManager(), this);
-		getServer().getPluginManager().registerEvents(new PacketManager(), this);
-		getServer().getPluginManager().registerEvents(new GrimManager(), this);
-		getServer().getPluginManager().registerEvents(new MiscManager(), this);
-		getServer().getPluginManager().registerEvents(new FirstJoinManager(), this);
-		getServer().getPluginManager().registerEvents(new ChatTriggerManager(), this);
-		getServer().getPluginManager().registerEvents(new AuthenticationManager(), this);
-		getServer().getPluginManager().registerEvents(new DiscordManager(), this);
-//		getServer().getPluginManager().registerEvents(new AIManager(), this);
-		getServer().getPluginManager().registerEvents(new MarketMessaging(), this);
-		getServer().getPluginManager().registerEvents(new MigrationManager(), this);
-		getServer().getPluginManager().registerEvents(new ActionBarManager(), this);
-		getServer().getPluginManager().registerEvents(new HelpManager(), this);
-		getServer().getPluginManager().registerEvents(new VoucherManager(), this);
-		getServer().getPluginManager().registerEvents(new TutorialManager(), this);
-		getServer().getPluginManager().registerEvents(new CustomEventManager(), this);
-		getServer().getPluginManager().registerEvents(new HologramManager(), this);
-		getServer().getPluginManager().registerEvents(new AuctionManager(), this);
-		getServer().getPluginManager().registerEvents(new OutpostManager(), this);
-		getServer().getPluginManager().registerEvents(new ProgressionManager(), this);
+		List<Listener> listeners = new ArrayList<>();
+
+		listeners.add(new DamageManager());
+		listeners.add(new PlayerManager());
+		listeners.add(new EnchantManager());
+		listeners.add(new PlayerDataManager());
+		listeners.add(new ChatManager());
+		listeners.add(new DamageIndicator());
+		listeners.add(new ItemManager());
+		listeners.add(new CombatManager());
+		listeners.add(new SpawnManager());
+		listeners.add(new ItemRename());
+		listeners.add(new AFKManager());
+		listeners.add(new TotallyLegitGem());
+		listeners.add(new BlobManager());
+		listeners.add(new BoosterManager());
+		listeners.add(new HopperManager());
+		listeners.add(new ResourcePackManager());
+		listeners.add(new StatManager());
+		listeners.add(new HelmetManager());
+		listeners.add(new MapManager());
+		listeners.add(new GuildIntegrationManager());
+		listeners.add(new UpgradeManager());
+		listeners.add(new KitManager());
+		listeners.add(new PortalManager());
+		listeners.add(new PotionManager());
+		listeners.add(new TaintedManager());
+		listeners.add(new StereoManager());
+		listeners.add(new ScoreboardManager());
+		listeners.add(new ProxyMessaging());
+		listeners.add(new LobbySwitchManager());
+		listeners.add(new PassManager());
+		listeners.add(new SkinManager());
+		listeners.add(new TimeManager());
+		listeners.add(new NPCManager());
+		listeners.add(new CosmeticManager());
+		listeners.add(new LogManager());
+		listeners.add(new StorageManager());
+		listeners.add(new CrossServerMessageManager());
+//		listeners.add(new PacketManager()); //todo fix this
+		listeners.add(new GrimManager());
+		listeners.add(new MiscManager());
+		listeners.add(new FirstJoinManager());
+		listeners.add(new ChatTriggerManager());
+		listeners.add(new AuthenticationManager());
+		listeners.add(new DiscordManager());
+		listeners.add(new MarketMessaging());
+		listeners.add(new MigrationManager());
+		listeners.add(new ActionBarManager());
+		listeners.add(new HelpManager());
+		listeners.add(new VoucherManager());
+		listeners.add(new TutorialManager());
+		listeners.add(new CustomEventManager());
+		listeners.add(new HologramManager());
+		listeners.add(new AuctionManager());
+		listeners.add(new OutpostManager());
+		listeners.add(new ProgressionManager());
+
+		for (Listener listener : listeners) {
+			getServer().getPluginManager().registerEvents(listener, this);
+		}
+
 		if(!PitSim.isDev()) getServer().getPluginManager().registerEvents(new StatisticsManager(), this);
 
 		if(getStatus().isDarkzone()) {

@@ -2,6 +2,7 @@ package net.pitsim.spigot.storage;
 
 import dev.kyro.arcticapi.misc.AOutput;
 import net.pitsim.spigot.PitSim;
+import net.pitsim.spigot.controllers.objects.PitPlayer;
 import net.pitsim.spigot.controllers.objects.PluginMessage;
 import net.pitsim.spigot.enums.RankInformation;
 import net.pitsim.spigot.events.MessageEvent;

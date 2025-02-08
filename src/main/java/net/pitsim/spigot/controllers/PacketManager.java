@@ -38,115 +38,148 @@ public class PacketManager implements Listener {
 
 	public static Map<PacketBlock, List<Player>> suppressedLocations = new HashMap<>();
 
-	static {
+	public PacketManager() {
 		protocolManager = ProtocolLibrary.getProtocolManager();
-//		PacketFilterManager packetFilterManager = (PacketFilterManager) protocolManager; // This is the actual class
 
-		Set<PacketListener> registeredListeners = (Set<PacketListener>) getFieldValue(protocolManager, "registeredListeners");
-		for(PacketListener listener : new ArrayList<>(registeredListeners)) {
-			if(listener.getPlugin() == Bukkit.getPluginManager().getPlugin("PremiumVanish") &&
-					listener.getSendingWhitelist().getTypes().contains(PacketType.Play.Server.PLAYER_INFO) &&
-					listener.getClass().getName().contains("SilentOpenChestPacketAdapters")) {
-				removePacketListener(listener);
-				AOutput.log("Removed packet listener from " + listener.getPlugin().getName());
+		// Debug log to confirm initialization
+		AOutput.log("Initializing PacketManager...");
+
+		try {
+			Set<PacketListener> registeredListeners = (Set<PacketListener>) getFieldValue(protocolManager, "registeredListeners");
+			AOutput.log("Found " + registeredListeners.size() + " registered listeners.");
+
+			for (PacketListener listener : new ArrayList<>(registeredListeners)) {
+				try {
+					if (listener.getPlugin() == Bukkit.getPluginManager().getPlugin("PremiumVanish") &&
+							listener.getSendingWhitelist().getTypes().contains(PacketType.Play.Server.PLAYER_INFO) &&
+							listener.getClass().getName().contains("SilentOpenChestPacketAdapters")) {
+						removePacketListener(listener);
+						AOutput.log("Removed packet listener from " + listener.getPlugin().getName());
+					}
+				} catch (Exception e) {
+					AOutput.log("Error processing listener: " + listener.getClass().getName());
+					e.printStackTrace();
+				}
 			}
-		}
 
-		protocolManager.addPacketListener(
-				new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
-					@Override
-					public void onPacketSending(PacketEvent event) {
+			// PacketListener for NAMED_SOUND_EFFECT
+			protocolManager.addPacketListener(new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+				@Override
+				public void onPacketSending(PacketEvent event) {
+					try {
 						Player player = event.getPlayer();
 						String soundName = event.getPacket().getStrings().read(0);
-						if(soundName.equals("mob.villager.idle") || soundName.equals("mob.rabbit.idle")) {
+						AOutput.log("Player " + player.getName() + " is sending sound: " + soundName);
+
+						if (soundName.equals("mob.villager.idle") || soundName.equals("mob.rabbit.idle")) {
 							event.setCancelled(true);
+							AOutput.log("Cancelled sound: " + soundName);
 						}
+
 						Location auctions = AuctionDisplays.pedestalLocations[0];
-						if(soundName.equals("mob.magmacube.big") &&
-								auctions.getWorld() == player.getWorld() && auctions.distance(player.getLocation()) < 50) {
+						if (soundName.equals("mob.magmacube.big") && auctions.getWorld() == player.getWorld() && auctions.distance(player.getLocation()) < 50) {
 							event.setCancelled(true);
+							AOutput.log("Cancelled sound near auction location for player: " + player.getName());
 						}
-						if(soundName.equals("mob.endermen.stare")) event.setCancelled(true);
+
+						if (soundName.equals("mob.endermen.stare")) {
+							event.setCancelled(true);
+							AOutput.log("Cancelled endermen stare sound.");
+						}
+
+					} catch (Exception e) {
+						AOutput.log("Error handling NAMED_SOUND_EFFECT packet for player: " + event.getPlayer().getName());
+						e.printStackTrace();
 					}
-				});
+				}
+			});
 
-
-		if(PitSim.status.isDarkzone()) {
-			protocolManager.addPacketListener(
-					new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.BLOCK_CHANGE) {
-						@Override
-						public void onPacketSending(PacketEvent event) {
-
+			// Additional packet listeners for BLOCK_CHANGE and ENTITY_TELEPORT
+			if (PitSim.status.isDarkzone()) {
+				protocolManager.addPacketListener(new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.BLOCK_CHANGE) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						try {
 							WrapperPlayServerBlockChange wrapper = new WrapperPlayServerBlockChange(event.getPacket());
 							Location location = wrapper.getLocation().toLocation(MapManager.getDarkzone());
 							List<Player> viewers = null;
 
-							for(Map.Entry<PacketBlock, List<Player>> entry : suppressedLocations.entrySet()) {
+							for (Map.Entry<PacketBlock, List<Player>> entry : suppressedLocations.entrySet()) {
 								Location stored = entry.getKey().getLocation();
-								if(stored.getBlockX() == location.getBlockX() && stored.getBlockY() == location.getBlockY()
+								if (stored.getBlockX() == location.getBlockX() && stored.getBlockY() == location.getBlockY()
 										&& stored.getBlockZ() == location.getBlockZ()) {
 									viewers = entry.getValue();
 								}
 							}
 
-							if(viewers == null) return;
+							if (viewers == null) return;
 
-							if(!viewers.contains(event.getPlayer())) return;
+							if (!viewers.contains(event.getPlayer())) return;
 
 							event.setCancelled(true);
+
+						} catch (Exception e) {
+							AOutput.log("Error processing BLOCK_CHANGE packet");
+							e.printStackTrace();
 						}
-					});
+					}
+				});
 
-			protocolManager.addPacketListener(
-					new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.ENTITY_TELEPORT) {
-						@Override
-						public void onPacketSending(PacketEvent event) {
-
+				protocolManager.addPacketListener(new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.ENTITY_TELEPORT) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						try {
 							boolean disable = AltarManager.isInAnimation(event.getPlayer());
-							if(!disable) return;
+							if (!disable) return;
 
 							WrapperPlayServerEntityTeleport wrapper = new WrapperPlayServerEntityTeleport(event.getPacket());
 							Entity entity = wrapper.getEntity(event);
-							if(!(entity instanceof ArmorStand)) return;
+							if (!(entity instanceof ArmorStand)) return;
 
-							for(AltarPedestal altarPedestal : AltarPedestal.altarPedestals) {
-								if(altarPedestal.stand.getUniqueId().equals(entity.getUniqueId())) {
+							for (AltarPedestal altarPedestal : AltarPedestal.altarPedestals) {
+								if (altarPedestal.stand.getUniqueId().equals(entity.getUniqueId())) {
 									event.setCancelled(true);
+									AOutput.log("Cancelled ENTITY_TELEPORT for ArmorStand with ID: " + entity.getUniqueId());
 									return;
 								}
 							}
+						} catch (Exception e) {
+							AOutput.log("Error processing ENTITY_TELEPORT packet");
+							e.printStackTrace();
 						}
-					});
-		}
+					}
+				});
+			}
 
-		protocolManager.addPacketListener(
-				new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Client.BLOCK_DIG) {
-					@Override
-					public void onPacketReceiving(PacketEvent event) {
+			// Add more packet listeners with debug and exception handling...
+			protocolManager.addPacketListener(new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Client.BLOCK_DIG) {
+				@Override
+				public void onPacketReceiving(PacketEvent event) {
+					try {
 						WrapperPlayClientBlockDig wrapper = new WrapperPlayClientBlockDig(event.getPacket());
 						Location location = wrapper.getLocation().toLocation(MapManager.getDarkzone());
 						List<Player> viewers = null;
 						PacketBlock packetBlock = null;
 
-						for(Map.Entry<PacketBlock, List<Player>> entry : suppressedLocations.entrySet()) {
+						for (Map.Entry<PacketBlock, List<Player>> entry : suppressedLocations.entrySet()) {
 							Location stored = entry.getKey().getLocation();
-							if(stored.getBlockX() == location.getBlockX() && stored.getBlockY() == location.getBlockY()
+							if (stored.getBlockX() == location.getBlockX() && stored.getBlockY() == location.getBlockY()
 									&& stored.getBlockZ() == location.getBlockZ()) {
 								viewers = entry.getValue();
 								packetBlock = entry.getKey();
 							}
 						}
 
-						if(viewers == null || packetBlock == null) return;
-						if(packetBlock.isRemoved()) return;
+						if (viewers == null || packetBlock == null) return;
+						if (packetBlock.isRemoved()) return;
 
-						for(List<PacketBlock> value : CageAbility.packetBlockMap.values()) {
-							for(PacketBlock block : value) {
-								if(block == packetBlock) return;
+						for (List<PacketBlock> value : CageAbility.packetBlockMap.values()) {
+							for (PacketBlock block : value) {
+								if (block == packetBlock) return;
 							}
 						}
 
-						if(!viewers.contains(event.getPlayer())) return;
+						if (!viewers.contains(event.getPlayer())) return;
 
 						suppressedLocations.remove(packetBlock);
 						PacketBlock finalPacketBlock = packetBlock;
@@ -154,51 +187,21 @@ public class PacketManager implements Listener {
 							@Override
 							public void run() {
 								finalPacketBlock.spawnBlock();
+								AOutput.log("Spawned block at location: " + finalPacketBlock.getLocation());
 							}
 						}.runTask(PitSim.INSTANCE);
 
+					} catch (Exception e) {
+						AOutput.log("Error processing BLOCK_DIG packet for player: " + event.getPlayer().getName());
+						e.printStackTrace();
 					}
-				});
+				}
+			});
 
-		protocolManager.addPacketListener(
-				new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						WrapperPlayServerNamedEntitySpawn wrapper = new WrapperPlayServerNamedEntitySpawn(event.getPacket());
-						Entity entity = wrapper.getEntity(event);
-
-						for(Player player : Bukkit.getOnlinePlayers()) {
-							if(event.getPlayer() == player) continue;
-
-							PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
-							DarkzoneTutorial tutorial = pitPlayer.darkzoneTutorial;
-							if(tutorial == null || tutorial.tutorialNPC == null) continue;
-							if(tutorial.tutorialNPC.npc.getEntity() == entity) {
-								event.setCancelled(true);
-								return;
-							}
-						}
-					}
-				});
-
-		protocolManager.addPacketListener(
-				new PacketAdapter(PitSim.INSTANCE, PacketType.Play.Server.SPAWN_ENTITY) {
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						WrapperPlayServerSpawnEntity wrapper = new WrapperPlayServerSpawnEntity(event.getPacket());
-						Entity entity = wrapper.getEntity(event);
-						if(!(entity instanceof Item)) return;
-
-						for(SelectiveDrop selectiveDrop : SelectiveDrop.selectiveDrops) {
-							if(!selectiveDrop.isItem((Item) entity)) continue;
-//
-							if(!selectiveDrop.getPermittedPlayers().contains(event.getPlayer().getUniqueId())) {
-								event.setCancelled(true);
-								return;
-							}
-						}
-					}
-				});
+		} catch (Exception e) {
+			AOutput.log("Error initializing PacketManager");
+			e.printStackTrace();
+		}
 	}
 
 	public static void removePacketListener(PacketListener listener) {
