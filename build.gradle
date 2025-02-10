@@ -20,10 +20,12 @@ configurations.configureEach {
 }
 
 repositories {
+    maven { url 'https://jitpack.io' }
+
     mavenCentral()
     mavenLocal()
 
-    maven { url 'https://jitpack.io' }
+
     maven { url 'https://repo.codemc.org/repository/maven-public' }
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://maven.enginehub.org/repo/' }
@@ -42,6 +44,8 @@ repositories {
 
 
 dependencies {
+    compileOnly files('libs/spigot-1.8.8.jar')
+
     compileOnly 'com.github.ArcticDevelopment:ArcticAPI:032bf8696c'
 
     // Google Auth and Firebase dependencies
@@ -85,7 +89,6 @@ dependencies {
 
     compileOnly 'com.github.sunarya-thito:PluginQuery:1.0.44'
 
-    compileOnly files('libs/spigot-1.8.8.jar')
     compileOnly files('libs/NoteBlockAPI-1.6.2-Kyro.jar')
     compileOnly files('libs/DeluxeChat-1.16.2.jar')
 

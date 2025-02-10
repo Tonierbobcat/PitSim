@@ -1,6 +1,7 @@
 package net.pitsim.spigot.controllers;
 
 import dev.kyro.arcticapi.misc.AOutput;
+import net.pitsim.spigot.ChatUtils;
 import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.darkzone.*;
 import net.pitsim.spigot.controllers.objects.Shield;
@@ -588,16 +589,15 @@ public class DamageManager implements Listener {
 			int difference = info.getDarkzoneLevel() - altarLevel;
 			String color = difference > 0 ? "&c" : "&a";
 
-			TextComponent hover = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6" +
+			TextComponent hover = new TextComponent(ChatUtils.parse("&6" +
 					df.format(killEvent.getFinalGold()) + "g &8(" + color + altarPercent + "%&8)"));
 
-			String hoverText = difference > 0 ? "&7Go to the &5Darkzone &7to remove this debuff" : "&7The &5Darkzone &7rewards you for your sacrifices";
-			hover.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
-					ChatColor.translateAlternateColorCodes('&', hoverText)).create()));
+			String hoverText = ChatUtils.parse(difference > 0 ? "&7Go to the &5Darkzone &7to remove this debuff" : "&7The &5Darkzone &7rewards you for your sacrifices");
+			hover.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
 
-			kill = PlaceholderAPI.setPlaceholders(killEvent.getDeadPlayer(), "&a&lKILL!&7 on %luckperms_prefix%" +
+			kill = ChatUtils.parse("&a&lKILL!&7 on %luckperms_prefix%" +
 					(deadNon == null ? "%player_name%" : deadNon.displayName) + " &b+" + killEvent.getFinalXp() + "XP" +
-					" &6+" + (altarMultiplier == 1 ? df.format(killEvent.getFinalGold()) + "g" : ""));
+					" &6+" + (altarMultiplier == 1 ? df.format(killEvent.getFinalGold()) + "g" : ""), killEvent.getDeadPlayer());
 
 			TextComponent killComponent = new TextComponent(kill);
 			if(altarMultiplier != 1) killComponent.addExtra(hover);
@@ -609,7 +609,9 @@ public class DamageManager implements Listener {
 		String soulsLostString = "";
 		if(PitSim.status.isDarkzone() && deadIsRealPlayer){
 			int finalSouls = killEvent.getFinalSouls();
-			if(finalSouls != 0) soulsLostString = " &f-" + finalSouls + " soul" + Misc.s(finalSouls);
+			if(finalSouls != 0) {
+				soulsLostString = ChatUtils.parse(" &f-" + finalSouls + " soul" + Misc.s(finalSouls));
+			}
 		}
 		if(killType == KillType.KILL && killerIsPlayer) {
 			death = PlaceholderAPI.setPlaceholders(killEvent.getKillerPlayer(), "&c&lDEATH!&7 by %luckperms_prefix%" +
