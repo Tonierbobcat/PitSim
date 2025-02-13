@@ -247,7 +247,9 @@ public class PitPlayer {
 	public void save(boolean itemData, boolean finalSave) {
 		try {
 			save(finalSave, null, itemData);
-		} catch(ExecutionException | InterruptedException ignored) {}
+		} catch(ExecutionException | InterruptedException e) {
+			AOutput.log("Could not save " + player.getName() + ". " + e.getMessage());
+		}
 	}
 
 	@Exclude

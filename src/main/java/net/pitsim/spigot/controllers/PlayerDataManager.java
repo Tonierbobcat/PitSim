@@ -1,5 +1,6 @@
 package net.pitsim.spigot.controllers;
 
+import dev.kyro.arcticapi.misc.AOutput;
 import net.pitsim.spigot.PitSim;
 import net.pitsim.spigot.controllers.objects.PitPlayer;
 import net.pitsim.spigot.events.PitQuitEvent;
@@ -31,6 +32,7 @@ public class PlayerDataManager implements Listener {
 
 	@EventHandler
 	public void onQuit(PitQuitEvent event) {
+		AOutput.log("PitQuitEvent triggered for " + event.getPlayer().getName());
 		Player player = event.getPlayer();
 		PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
 		new BukkitRunnable() {
