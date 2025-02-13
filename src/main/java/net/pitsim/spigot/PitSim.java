@@ -360,6 +360,9 @@ public class PitSim extends JavaPlugin {
 			@Override
 			public void run() {
 				registerNPCs();
+
+				//FIXES NPC NAMETAG BUG ON ENABLE
+				Bukkit.dispatchCommand(getServer().getConsoleSender(), "plugman reload pitsim");
 			}
 		}.runTaskLater(PitSim.INSTANCE, 20);
 	}
