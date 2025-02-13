@@ -259,7 +259,7 @@ public class PitPlayer {
 			if(finalSave) StorageManager.frozenPlayers.remove(uuid);
 			return;
 		}
-		if(PitSim.getStatus() == PitSim.ServerStatus.STANDALONE) return;
+
 		if(finalSave && lastSave + SAVE_COOLDOWN > System.currentTimeMillis()) {
 			long timeUntilSave = lastSave + SAVE_COOLDOWN - System.currentTimeMillis();
 			new Thread(() -> {
@@ -288,7 +288,7 @@ public class PitPlayer {
 
 		if(itemData) {
 			StorageProfile profile = StorageManager.getProfile(uuid);
-			profile.saveData(finalSave);
+			profile.saveData();
 		}
 
 		if(isInitialized) {
