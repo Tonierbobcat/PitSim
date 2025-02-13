@@ -104,20 +104,20 @@ public class SubLevel {
         }
     }
 
-	public void identifySpawnableLocations() {
-		PitSim.INSTANCE.getLogger().log(Level.INFO, "identifying spawn locations. spawnradius: " + spawnRadius);
+	public void identifySpawnableLocations() { //todo FIX THIS!!!!
+		//PitSim.INSTANCE.getLogger().log(Level.INFO, "identifying spawn locations. spawnradius: " + spawnRadius);
 		for(int x = -spawnRadius; x < spawnRadius + 1; x++) {
 			for(int z = -spawnRadius; z < spawnRadius + 1; z++) {
 
 				Location location = new Location(MapManager.getDarkzone(), middle.getBlockX() + x + 0.5, middle.getBlockY(), middle.getBlockZ() + z + 0.5);
 				if(location.distance(middle) > spawnRadius) {
-					PitSim.INSTANCE.getLogger().log(Level.WARNING, "Distance is greater then spawn radius");
+					//PitSim.INSTANCE.getLogger().log(Level.WARNING, "Distance is greater then spawn radius");
 					continue;
 				}
 
 				location.add(0, -3, 0);
 				if(!isSpawnableLocation(location)) {
-					PitSim.INSTANCE.getLogger().log(Level.WARNING, "Location not spawnable!");
+					//PitSim.INSTANCE.getLogger().log(Level.WARNING, "Location not spawnable!");
 					continue;
 				}
 				spawnableLocations.add(location);

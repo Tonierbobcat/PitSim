@@ -24,7 +24,6 @@ public class CustomEventManager implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onInitialJoin(PlayerJoinEvent event) {
-
 //		Player player = event.getPlayer();
 //		PitPlayer pitPlayer = PitPlayer.getPitPlayer(player);
 //		StorageProfile profile = StorageManager.getProfile(player.getUniqueId());
